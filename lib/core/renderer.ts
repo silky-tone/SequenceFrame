@@ -11,7 +11,7 @@ const opt = {
 };
 
 export class Renderer {
-  private renderer: IRenderer;
+  private readonly renderer: IRenderer;
   private readonly root: HTMLCanvasElement;
 
   constructor(element: HTMLElement | HTMLCanvasElement | string, options?: Partial<RendererOptions>) {

@@ -1,5 +1,5 @@
 {
-  "name": "sequenceframe",
+  "name": "sequence-frame",
   "version": "0.0.1",
   "description": "简单序列帧实现",
   "scripts": {

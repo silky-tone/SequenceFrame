@@ -2,24 +2,28 @@ import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import Package from './package.json';
 
+const PackageName = Package.name.split('-').map(item => {
+  return item.trim();
+}).filter(item => {
+  return Boolean(item);
+}).map(item => {
+  return item ? item[0].toUpperCase() + item.slice(1) : '';
+}).join('');
+
 export default defineConfig({
-  plugins: [],
   root: resolve(__dirname, './example'),
   server: {
     port: 8415,
     open: true,
   },
   build: {
-    outDir: 'dist',
+    target: 'chrome74',
+    outDir: resolve(__dirname, './dist'),
     lib: {
-      name: Package.name,
-      formats: ['umd', 'cjs'],
+      name: PackageName,
+      fileName: Package.name,
+      formats: ['umd', 'cjs', 'es'],
       entry: resolve(__dirname, './lib/index.ts'),
-    },
-    rollupOptions: {
-      input: {
-        index: resolve(__dirname, './example/index.html'),
-      },
     },
   },
 });
