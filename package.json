@@ -1,0 +1,25 @@
+{
+  "name": "sequenceframe",
+  "version": "0.0.1",
+  "description": "简单序列帧实现",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Funny002/SequenceFrame.git"
+  },
+  "keywords": ["sequenceframe", "sequence", "frame"],
+  "author": "Funny002 <2048412928@qq.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Funny002/SequenceFrame/issues"
+  },
+  "homepage": "https://github.com/Funny002/SequenceFrame#readme"
+}

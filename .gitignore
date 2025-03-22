@@ -1,0 +1,14 @@
+.idea
+.cache
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+dist
+build
+node_modules
+dist-electron
+
+#
+public/image
+public/video
