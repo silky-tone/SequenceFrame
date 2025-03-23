@@ -1,3 +1,4 @@
+// utils/object.ts;
 // TODO: 获取类型
 export function getType(target: any): string {
   return Object.prototype.toString.call(target).slice(8, -1);

@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sequence Frame</title>
     <meta charset="UTF-8">
+    <title>Sequence Frame</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #root {
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .item {
+            width: 200px;
+            display: flex;
+            text-align: center;
+            border: 1px solid #ddd;
+            flex-direction: column;
+            background-color: #ffffff;
+        }
+
+        .canvas {
+            width: 200px;
+            height: 400px;
+            display: inline-block;
+            background-color: #000;
+        }
+    </style>
   </head>
   <body>
-    <div id="root">App</div>
+    <div id="root">
+      <div class="item" id="start">
+        <div style="line-height: 2;">Start</div>
+        <div class="canvas"></div>
+      </div>
+      <div class="item" id="loop">
+        <div style="line-height: 2;">
+          <span>Loop</span>
+          <button disabled>切换</button>
+        </div>
+        <div class="canvas"></div>
+      </div>
+    </div>
+    <script type="module" src="./main.ts"></script>
   </body>
 </html>

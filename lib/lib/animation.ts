@@ -1,3 +1,4 @@
+// lib/animation.ts;
 import { Listener } from './listener';
 import { getTime } from '../utils';
 
@@ -8,8 +9,15 @@ export const AnimationFrame = (function(win: any) {
     win['mozRequestAnimationFrame'] ||
     win['oRequestAnimationFrame'] ||
     win['msRequestAnimationFrame'] ||
-    ((callback: () => void) => win.setTimeout(() => callback(), 1000 / 60));
-})(window) as ((func: () => void) => void);
+    (function() {
+      let leftTime: number = 0;
+      return function(callback: (timestamp: number) => void) {
+        win.setTimeout(() => {
+          callback(getTime() - leftTime);
+        }, 1000 / 6);
+      };
+    })();
+})(window) as ((func: (timestamp: number) => void) => void);
 
 // TODO: 帧动画 - 类
 export class Animation {
@@ -50,7 +58,7 @@ export class Animation {
     if (this.last.fps) {
       this.count += 1;
       if ((time - this.last.fps) > 1000) {
-        this.listener.publish('FPS', this.count);
+        this.listener.emit('FPS', this.count);
         this.last.fps = time;
         this.count = 1;
       }
@@ -65,7 +73,7 @@ export class Animation {
     const time = getTime();
     if (this.last && this.last.records !== time) {
       const fps = 1000 / (time - this.last.records);
-      this.listener.publish('RealTimeFPS', parseFloat(fps.toFixed(1)));
+      this.listener.emit('RealTimeFPS', parseFloat(fps.toFixed(1)));
     }
     this.last.records = time;
   }
@@ -73,29 +81,29 @@ export class Animation {
   // TODO: 绑定事件
   public on(key: 'FPS' | 'RealTimeFPS', listener: (fps: number) => void) {
     if (!['FPS', 'RealTimeFPS'].includes(key)) throw new Error('Invalid listener type');
-    this.listener.subscribe(key, listener);
+    this.listener.on(key, listener);
   }
 
   // TODO: 解绑事件
   public off(key: 'FPS' | 'RealTimeFPS', listener: (fps: number) => void) {
     if (!['FPS', 'RealTimeFPS'].includes(key)) throw new Error('Invalid listener type');
-    this.listener.unsubscribe(key, listener);
+    this.listener.off(key, listener);
   }
 
   // TODO: 开始
-  public run(listener: () => void) {
+  public run(listener: (timestamp: number) => void) {
     this.status = true;
     let last = getTime();
-    const newListener = () => {
+    const newListener = (timestamp: number = 0) => {
       if (!this.status) return;
       this.getFps();
       this.getRecords();
       if (this.limit) {
         AnimationFrame(newListener);
         const interval = 1000 / this.limit;
-        setTimeout(() => listener(), interval - (getTime() - last) % interval);
+        setTimeout(() => listener(timestamp), interval - (getTime() - last) % interval);
       } else {
-        listener();
+        listener(timestamp);
         AnimationFrame(newListener);
       }
     };

@@ -1,36 +1,40 @@
-import { IRenderer, RendererOptions, RendererType } from '../interface';
-import { CanvasRenderer, WebGLRenderer } from '../renderer';
+// core/renderer.ts;
+import { IFrame, IRenderer, RendererOptions } from '../interface';
 import { isString, mergeObject } from '../utils';
+import { CanvasRenderer } from '../renderer';
 
 const opt = {
-  width: 0,
-  height: 0,
   fit: 'contain',
   type: 'canvas',
-  background: '#000',
+  renderer: undefined,
 };
 
+// TODO: 渲染器实现
 export class Renderer {
   private readonly renderer: IRenderer;
   private readonly root: HTMLCanvasElement;
+  //
+  private option: RendererOptions;
 
   constructor(element: HTMLElement | HTMLCanvasElement | string, options?: Partial<RendererOptions>) {
-    const { type, width, height, background } = mergeObject(opt, options || {});
-    this.renderer = this.getRenderer(type);
+    this.option = (mergeObject(opt, options || {}) as RendererOptions);
     this.root = this.getCanvas(element);
-    //
+    // TODO: 渲染器
+    const renderer = this.option.renderer;
+    this.renderer = renderer ? renderer : this.getRenderer();
   }
 
-  private getRenderer(type: RendererType): IRenderer {
+  // TODO: 获取渲染器
+  private getRenderer(): IRenderer {
     const renderer = ({
-      webgl: WebGLRenderer,
       canvas: CanvasRenderer,
-    })[type];
+    })[this.option.type];
     if (!renderer) throw new Error('Unsupported renderer type');
     //
-    return (new renderer()) as IRenderer;
+    return new renderer(this.root, this.option) as IRenderer;
   }
 
+  // TODO: 获取 canvas
   private getCanvas(element: HTMLElement | HTMLCanvasElement | string): HTMLCanvasElement {
     // 过滤掉字符串
     if (isString(element)) {
@@ -43,11 +47,22 @@ export class Renderer {
     // 判断非 canvas
     if (element.tagName.toLowerCase() !== 'canvas') {
       const canvas = document.createElement('canvas');
-      canvas.height = element.offsetHeight;
-      canvas.width = element.offsetWidth;
+      canvas.setAttribute('style', 'width: 100%; height: 100%;');
+      canvas.height = element.clientHeight;
+      canvas.width = element.clientWidth;
       element.appendChild(canvas);
       return canvas;
     }
     return element as HTMLCanvasElement;
+  }
+
+  // TODO: 渲染
+  render(frame: IFrame | undefined) {
+    if (frame) this.renderer.render(frame);
+  }
+
+  // TODO: 销毁
+  destroy(): void {
+    this.renderer.destroy();
   }
 }

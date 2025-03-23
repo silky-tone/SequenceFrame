@@ -1,2 +1,2 @@
+// renderer/index.ts;
 export * from './canvas';
-export * from './webgl';

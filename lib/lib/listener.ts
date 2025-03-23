@@ -1,34 +1,47 @@
+// lib/listener.ts;
+// TODO: 监听器类型
 export type EventListener<T> = (data: T) => void;
 
 // TODO: 监听器
 export class Listener<T = any> {
-  // TODO: 主题
-  private topics: { [key: string]: EventListener<T>[] } = {};
+  // TODO: 事件
+  private listener: Record<string, EventListener<T>[]> = {};
 
-  // TODO: 订阅
-  public subscribe(topic: string, listener: EventListener<T>) {
-    if (!this.topics[topic]) {
-      this.topics[topic] = [];
+  // TODO: 监听
+  public on(key: string, listener: EventListener<T>) {
+    if (!this.listener[key]) {
+      this.listener[key] = [];
     }
-    this.topics[topic].push(listener);
+    this.listener[key].push(listener);
   }
 
-  // TODO: 取消订阅
-  public unsubscribe(topic: string, listener: EventListener<T>) {
-    const topicListeners = this.topics[topic];
-    if (topicListeners) {
-      const index = topicListeners.indexOf(listener);
-      if (index !== -1) {
-        topicListeners.splice(index, 1);
-      }
-    }
+  // TODO: 取消监听
+  public off(key: string, listener: EventListener<T>) {
+    if (!this.listener[key]) return;
+    this.listener[key] = this.listener[key].filter((item) => {
+      return item !== listener;
+    });
   }
 
-  // TODO: 发布
-  public publish(topic: string, data: T) {
-    const topicListeners = this.topics[topic];
-    if (topicListeners) {
-      topicListeners.forEach((listener) => listener(data));
-    }
+  // TODO: 触发
+  public emit(key: string, data: T) {
+    if (!this.listener[key]) return;
+    this.listener[key].forEach((item) => {
+      item(data);
+    });
+  }
+
+  // TODO: 监听一次
+  public once(key: string, listener: EventListener<T>) {
+    const onceListener = (data: T) => {
+      this.off(key, onceListener);
+      listener(data);
+    };
+    this.on(key, onceListener);
+  }
+
+  // TODO: 清空
+  public clear() {
+    this.listener = {};
   }
 }

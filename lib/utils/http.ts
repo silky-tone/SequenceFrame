@@ -1,9 +1,12 @@
+// utils/http.ts;
 // TODO: 进度回调
 export type onProgress = (progress: number, count: number, length: number) => void;
 
 // TODO: fetch 获取进度
 export async function fetchProgress(src: string, onProgress?: onProgress): Promise<File> {
-  const http = await fetch(src);
+  const http = await fetch(src, {
+    headers: { 'accept': 'image/*, */*;' },
+  });
   //
   if (!http.ok) return Promise.reject(new Error(`Failed to load image: ${src}`));
   if (!http.body) return Promise.reject(new Error(`Failed to load image: ${src}`));
@@ -40,8 +43,9 @@ export async function fetchProgress(src: string, onProgress?: onProgress): Promi
 export function xmlProgress(src: string, onProgress?: onProgress): Promise<File> {
   return new Promise<File>((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.responseType = 'arraybuffer';
     xhr.open('GET', src, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.setRequestHeader('Accept', 'image/*, */*;');
 
     // TODO: 进度
     xhr.addEventListener('progress', (event) => {

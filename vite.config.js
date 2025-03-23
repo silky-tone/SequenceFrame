@@ -16,13 +16,14 @@ export default defineConfig({
     port: 8415,
     open: true,
   },
+  publicDir: resolve(__dirname, './public'),
   build: {
     target: 'chrome74',
     outDir: resolve(__dirname, './dist'),
     lib: {
       name: PackageName,
       fileName: Package.name,
-      formats: ['umd', 'cjs', 'es'],
+      formats: ['umd', 'es'],
       entry: resolve(__dirname, './lib/index.ts'),
     },
   },
