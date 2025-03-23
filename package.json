@@ -1,10 +1,22 @@
 {
-  "name": "sequence-frame",
-  "version": "1.0.0",
+  "name": "@silkytone/sequence-frame",
+  "version": "1.0.1",
+  "private": false,
   "description": "简单序列帧实现",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "files": ["dist", "package.json", "README.md", "LICENSE"],
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build && tsc --project tsconfig.types.json"
   },
   "devDependencies": {
     "@types/node": "^22.13.11",

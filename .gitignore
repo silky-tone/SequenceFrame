@@ -8,7 +8,4 @@ dist
 build
 node_modules
 dist-electron
-
-#
-public/image
-public/video
+example/public
