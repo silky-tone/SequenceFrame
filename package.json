@@ -1,13 +1,15 @@
 {
   "name": "@silkytone/sequence-frame",
-  "version": "1.0.1",
-  "private": false,
-  "description": "简单序列帧实现",
+  "version": "1.0.2",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.mjs",
   "types": "./dist/types/index.d.ts",
-  "files": ["dist", "package.json", "README.md", "LICENSE"],
-  "license": "MIT",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -18,20 +20,26 @@
     "dev": "vite",
     "build": "vite build && tsc --project tsconfig.types.json"
   },
+  "keywords": [
+    "sequence frame",
+    "sequence",
+    "frame"
+  ],
+  "license": "MIT",
+  "private": false,
+  "description": "简单序列帧实现",
+  "author": "Funny002 <2048412928@qq.com>",
+  "homepage": "https://github.com/silky-tone/SequenceFrame#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silky-tone/SequenceFrame.git"
+  },
+  "bugs": {
+    "url": "https://github.com/silky-tone/SequenceFrame/issues"
+  },
   "devDependencies": {
     "@types/node": "^22.13.11",
     "typescript": "^5.8.2",
     "vite": "^6.2.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Funny002/SequenceFrame.git"
-  },
-  "keywords": ["sequenceframe", "sequence", "frame"],
-  "author": "Funny002 <2048412928@qq.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Funny002/SequenceFrame/issues"
-  },
-  "homepage": "https://github.com/Funny002/SequenceFrame#readme"
+  }
 }
